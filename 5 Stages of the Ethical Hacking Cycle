@@ -1,0 +1,38 @@
+The **Ethical Hacking Cycle** (also known as the **Penetration Testing Lifecycle**) involves a structured process used by ethical hackers to identify, exploit, and report security vulnerabilities in a legal and controlled manner. Here's a summary of the main stages:
+
+---
+
+### 🔄 **5 Stages of the Ethical Hacking Cycle**
+
+1. **Reconnaissance (Information Gathering)**
+
+   * Collect information about the target system (e.g., IPs, domains, network structure).
+   * **Types:** Passive (public info) and Active (direct interaction).
+
+2. **Scanning (Vulnerability Detection)**
+
+   * Use tools to scan for open ports, services, and known vulnerabilities.
+   * **Techniques:** Network scanning, port scanning, vulnerability scanning.
+
+3. **Gaining Access (Exploitation)**
+
+   * Try to exploit vulnerabilities to gain control over systems or data.
+   * **Tools:** Metasploit, SQL injection, password cracking.
+
+4. **Maintaining Access (Persistence)**
+
+   * Install backdoors or create user accounts to retain access (used in red team simulations, but ethically controlled).
+   * Helps understand the impact of long-term breaches.
+
+5. **Clearing Tracks & Reporting**
+
+   * Ethical hackers **do not erase logs** like black hats but simulate this step.
+   * **Final report** is created to document findings, risks, and recommendations.
+
+---
+
+### 📌 Bonus: **Retesting (Optional Stage)**
+
+* After vulnerabilities are fixed, ethical hackers may retest to ensure systems are secure.
+
+---
