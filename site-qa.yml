@@ -1,0 +1,55 @@
+name: Site QA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-qa-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Check JavaScript syntax
+        run: |
+          set -euo pipefail
+          for f in js/*.js; do
+            echo "Checking $f"
+            node --check "$f"
+          done
+
+      - name: Check required files
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f js/tree-data.js
+          test -f js/cyber-map.js
+          test -f js/cyber-upgrades.js
+          test -f js/engineering-deep-lab.js
+          test -f js/engineering-game-center.js
+          test -f js/cyber-arcade.js
+
+      - name: Check for obvious committed secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -RInE --exclude-dir=.git --exclude='*.map' \
+            '(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----|ghp_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{20,}|xox[baprs]-[A-Za-z0-9-]{20,}|AIza[0-9A-Za-z_-]{30,})' .; then
+            echo "Potential credential material detected in repository files. Remove it before merging."
+            exit 1
+          fi

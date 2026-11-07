@@ -2,28 +2,22 @@
 
 ## Scope
 
-This repository is a curated list of public APIs maintained as a Markdown file.
-It does not contain executable code deployed to production servers.
+This repository is a public GitHub Pages website. Public HTML, CSS, JavaScript, images, educational content, and client-side game logic are intentionally visible.
 
-## Reporting a Vulnerability
+## Never commit secrets
 
-If you discover a security issue (e.g., a malicious link, phishing URL, or
-compromised API endpoint in the list), please:
+Do not commit passwords, API keys, access tokens, private certificates, service credentials, database credentials, or other secrets to this repository. GitHub Pages is a static public site, so anything shipped to the browser must be treated as public.
 
-1. **Open an issue** with the [`security` label](https://github.com/public-api-lists/public-api-lists/issues/new?labels=security)
-2. For sensitive reports, contact the maintainer [@k4sud0n](https://github.com/k4sud0n) directly via GitHub
+If a third-party service requires a secret, use a server-side service or another architecture that keeps the credential outside the published site.
 
-We will review and remove malicious entries within 48 hours.
+## Reporting a security issue
 
-## What Counts as a Security Issue
+Please do not publish sensitive security details in a public issue. Contact the repository owner privately through GitHub before disclosing the issue publicly.
 
-- A listed API URL that redirects to malware or phishing
-- A listed API that has been compromised and serves malicious content
-- A PR that attempts to inject malicious links
-- XSS or injection attempts in API descriptions
+## Safe development rules
 
-## What Does NOT Count
-
-- APIs that require authentication (this is expected and documented)
-- APIs that are simply offline or returning errors (use the "broken link" issue template)
-- Disagreements about whether an API is "free enough" to be listed
+- Keep the `main` branch deployable.
+- Run the repository JavaScript QA before merging changes.
+- Treat browser-side data as public.
+- Avoid storing personal data in localStorage unless it is strictly necessary and non-sensitive.
+- Do not add executable third-party scripts without reviewing their source and integrity implications.
