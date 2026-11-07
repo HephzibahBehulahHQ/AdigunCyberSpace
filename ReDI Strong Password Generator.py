@@ -1,0 +1,369 @@
+import random  # Import the random module to generate random choices
+import string  # Import the string module to get character sets
+
+
+def generate_password(length, use_uppercase=True, use_lowercase=True, use_numbers=True, use_symbols=True):
+    # Define character sets
+    uppercase_letters = string.ascii_uppercase
+    lowercase_letters = string.ascii_lowercase
+    numbers = string.digits
+    symbols = string.punctuation
+
+    # Combine character sets based on user preferences
+    characters = ''
+    if use_uppercase:
+        characters += uppercase_letters
+    if use_lowercase:
+        characters += lowercase_letters
+    if use_numbers:
+        characters += numbers
+    if use_symbols:
+        characters += symbols 
+
+    # Check if at least one character set is selected
+    if not characters:
+        raise ValueError("At least one character set must be selected")
+
+    # Ensure the password contains at least one character from each selected set
+    password = []
+    if use_uppercase:
+        password.append(random.choice(uppercase_letters))
+    if use_lowercase:
+        password.append(random.choice(lowercase_letters))
+    if use_numbers:
+        password.append(random.choice(numbers))
+    if use_symbols:
+        password.append(random.choice(symbols))
+
+    # Fill the rest of the password length with random choices from the combined set
+    password.extend(random.choice(characters) for _ in range(length - len(password)))
+
+    # Shuffle the password list to ensure randomness
+    random.shuffle(password)
+
+    # Convert the list to a string
+    password = ''.join(password) # Convert the list to a string
+
+    return password
+
+
+def play_game():
+    print("\n🎮 Let's play a game while generating your password!")
+    questions = [
+    {"question": "What is the keyword to define a function in Python?", "choices": ["a) def", "b) func"], "answer": "a"},
+    {"question": "Which of the following is a mutable data type in Python?", "choices": ["a) list", "b) tuple"], "answer": "a"},
+    {"question": "What is the output of print(2 ** 3)?", "choices": ["a) 8", "b) 6"], "answer": "a"},
+    {"question": "Which of the following is used to handle exceptions in Python?", "choices": ["a) try-except", "b) catch-throw"], "answer": "a"},
+    {"question": "What is the correct file extension for Python files?", "choices": ["a) .py", "b) .python"], "answer": "a"},
+    {"question": "Which of the following is a Python built-in function?", "choices": ["a) len()", "b) length()"], "answer": "a"},
+    {"question": "How do you insert comments in Python code?", "choices": ["a) #", "b) //"], "answer": "a"},
+    {"question": "What is the output of print('Hello' + 'World')?", "choices": ["a) HelloWorld", "b) Hello World"], "answer": "a"},
+    {"question": "Which of the following is a Python tuple?", "choices": ["a) (1, 2, 3)", "b) [1, 2, 3]"], "answer": "a"},
+    {"question": "What is the output of print(type([]))?", "choices": ["a) <class 'list'>", "b) <class 'tuple'>"], "answer": "a"},
+    {"question": "What is the output of print(10 ** 2)?", "choices": ["a) 100", "b) 20"], "answer": "a"},
+    {"question": "Which method is used to add elements to a set?", "choices": ["a) add()", "b) append()"], "answer": "a"},
+    {"question": "Which of the following removes an item from a dictionary?", "choices": ["a) pop()", "b) remove()"], "answer": "a"},
+    {"question": "What does the len() function do?", "choices": ["a) Returns the length of an object", "b) Sorts an object"], "answer": "a"},
+    {"question": "Which library is used for data visualization in Pytho n?", "choices": ["a) Matplotlib", "b) NumPy"], "answer": "a"},
+    {"question": "How do you create a dictionary in Python?", "choices": ["a) {}", "b) []"], "answer": "a"},
+    {"question": "Which method converts a string to lowercase?", "choices": ["a) lower()", "b) to_lower()"], "answer": "a"},
+    {"question": "What is the result of 'Python'[-1]?", "choices": ["a) n", "b) P"], "answer": "a"},
+    {"question": "Which of the following is an immutable data type?", "choices": ["a) tuple", "b) list"], "answer": "a"},
+    {"question": "Which module is used to work with JSON in Python?", "choices": ["a) json", "b) pickle"], "answer": "a"},
+    {"question": "How do you open a file for writing?", "choices": ["a) 'w'", "b) 'r'"], "answer": "a"},
+    {"question": "Which function reads all lines of a file?", "choices": ["a) readlines()", "b) readline()"], "answer": "a"},
+    {"question": "Which keyword is used to create a loop in Python?", "choices": ["a) for", "b) loop"], "answer": "a"},
+    {"question": "What is the correct syntax to check equality in Python?", "choices": ["a) ==", "b) ="], "answer": "a"},
+    {"question": "What does the range() function return?", "choices": ["a) range object", "b) list"], "answer": "a"},
+    {"question": "How do you create an infinite loop in Python?", "choices": ["a) while True:", "b) for i in range():"], "answer": "a"},
+    {"question": "Which Python library is used for numerical computations?", "choices": ["a) NumPy", "b) Pandas"], "answer": "a"},
+    {"question": "What is the output of print(bool(None))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "What does the isdigit() method check?", "choices": ["a) If the string contains only digits", "b) If the string contains letters"], "answer": "a"},
+    {"question": "Which keyword is used to stop a loop?", "choices": ["a) break", "b) stop"], "answer": "a"},
+    {"question": "Which Python framework is used for web development?", "choices": ["a) Django", "b) Flask"], "answer": "a"},
+    {"question": "How do you create a class in Python?", "choices": ["a) class", "b) def"], "answer": "a"},
+    {"question": "Which keyword is used to inherit from a class?", "choices": ["a) super", "b) extends"], "answer": "a"},
+    {"question": "How do you install a Python library?", "choices": ["a) pip install", "b) import"], "answer": "a"},
+    {"question": "What does the eval() function do?", "choices": ["a) Evaluates an expression", "b) Executes a function"], "answer": "a"},
+    {"question": "Which of the following creates a private attribute in a class?", "choices": ["a) __attr", "b) attr"], "answer": "a"},
+    {"question": "What is the result of 3 + 2 * 2?", "choices": ["a) 7", "b) 10"], "answer": "a"},
+    {"question": "How do you raise an exception in Python?", "choices": ["a) raise", "b) throw"], "answer": "a"},
+    {"question": "What is the output of 'Python'.startswith('P')?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which of the following is not a Python keyword?", "choices": ["a) fun", "b) with"], "answer": "a"},
+    {"question": "What does the sorted() function return?", "choices": ["a) A sorted list", "b) Modifies the original list"], "answer": "a"},
+    {"question": "How do you merge two dictionaries in Python (3.9 and later)?", "choices": ["a) dict1 | dict2", "b) dict1 + dict2"], "answer": "a"},
+    {"question": "Which of the following is a Python coroutine?", "choices": ["a) async def func()", "b) def func()"], "answer": "a"},
+    {"question": "What is the default encoding for Python source files?", "choices": ["a) UTF-8", "b) ASCII"], "answer": "a"},
+    {"question": "What is a generator in Python?", "choices": ["a) A function that yields values", "b) A function that returns a list"], "answer": "a"},
+    {"question": "Which of the following is not a data type in Python?", "choices": ["a) pointer", "b) int"], "answer": "a"},
+    {"question": "What does the zip() function do?", "choices": ["a) Combines two iterables", "b) Compresses a file"], "answer": "a"},
+    {"question": "What is the output of print(10 != 5)?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which keyword is used to define an anonymous block of code in Python?", "choices": ["a) lambda", "b) def"], "answer": "a"},
+    {"question": "Which of the following is used to delete an item from a dictionary?", "choices": ["a) del", "b) remove"], "answer": "a"},
+    {"question": "What is the result of print('abc' * 3)?", "choices": ["a) abcabcabc", "b) abc*3"], "answer": "a"},
+    {"question": "What is the output of print(float('10.5'))?", "choices": ["a) 10.5", "b) 10"], "answer": "a"},
+    {"question": "Which of the following is used to catch multiple exceptions in Python?", "choices": ["a) (Exception1, Exception2)", "b) [Exception1, Exception2]"], "answer": "a"},
+    {"question": "Which function is used to convert a list to a tuple?", "choices": ["a) tuple()", "b) to_tuple()"], "answer": "a"},
+    {"question": "What is the output of print(not False)?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "How do you reverse a string `s` in Python?", "choices": ["a) s[::-1]", "b) reverse(s)"], "answer": "a"},
+    {"question": "Which of the following is a valid Python dictionary comprehension?", "choices": ["a) {k: v for k, v in items}", "b) {k, v for k, v in items}"], "answer": "a"},
+    {"question": "What is the output of print(hex(255))?", "choices": ["a) 0xff", "b) 255"], "answer": "a"},
+    {"question": "Which module provides mathematical constants and functions?", "choices": ["a) math", "b) cmath"], "answer": "a"},
+    {"question": "What is the output of print(3 < 5 and 2 > 1)?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which of the following is a Python frozenset?", "choices": ["a) frozenset([1, 2, 3])", "b) frozen([1, 2, 3])"], "answer": "a"},
+    {"question": "How do you get the last character of a string `s`?", "choices": ["a) s[-1]", "b) s[len(s)]"], "answer": "a"},
+    {"question": "What is the output of print(2 ** 0)?", "choices": ["a) 1", "b) 2"], "answer": "a"},
+    {"question": "Which keyword is used to handle cleanup actions in Python?", "choices": ["a) finally", "b) except"], "answer": "a"},
+    {"question": "How do you iterate over both keys and values of a dictionary?", "choices": ["a) dict.items()", "b) dict.values()"], "answer": "a"},
+    {"question": "What is the output of print(bool(''))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "Which function is used to pause execution for a certain number of seconds?", "choices": ["a) time.sleep()", "b) pause()"], "answer": "a"},
+    {"question": "What does the enumerate() function return?", "choices": ["a) Index and value", "b) Keys and values"], "answer": "a"},
+    {"question": "What is the result of 10 // 3?", "choices": ["a) 3", "b) 3.333"], "answer": "a"},
+    {"question": "Which operator is used to unpack iterables in Python?", "choices": ["a) *", "b) &"], "answer": "a"},
+    {"question": "What is the output of print(ord('A'))?", "choices": ["a) 65", "b) 97"], "answer": "a"},
+    {"question": "What is the output of print('Python'.isalpha())?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which method can be used to convert a string to lowercase?", "choices": ["a) lower()", "b) downcase()"], "answer": "a"},
+    {"question": "What is the output of print(bin(10))?", "choices": ["a) 0b1010", "b) 1010"], "answer": "a"},
+    {"question": "Which Python function is used to get a string representation of an object?", "choices": ["a) str()", "b) repr()"], "answer": "a"},
+    {"question": "What is the result of len([1, 2, 3, 4])?", "choices": ["a) 4", "b) 5"], "answer": "a"},
+    {"question": "Which of the following can be used to stop a loop prematurely?", "choices": ["a) break", "b) continue"], "answer": "a"},
+    {"question": "What is the result of type(())?", "choices": ["a) <class 'tuple'>", "b) <class 'NoneType'>"], "answer": "a"},
+    {"question": "Which Python method removes whitespace from the beginning and end of a string?", "choices": ["a) strip()", "b) trim()"], "answer": "a"},
+    {"question": "What is the result of print(bool(None))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "What is the output of print(isinstance(5, int))?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "What is the result of len(set([1, 1, 2, 3]))?", "choices": ["a) 3", "b) 4"], "answer": "a"},
+    {"question": "Which of the following is the Pythonic way to swap two variables a and b?", "choices": ["a) a, b = b, a", "b) swap(a, b)"], "answer": "a"},
+    {"question": "What is the output of print(all([True, True, False]))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "What is the result of print(max([3, 7, 2]))?", "choices": ["a) 7", "b) 3"], "answer": "a"},
+    {"question": "Which of the following statements correctly opens a file for reading?", "choices": ["a) open('file.txt', 'r')", "b) open('file.txt', 'w')"], "answer": "a"},
+    {"question": "What is the result of print(abs(-10))?", "choices": ["a) 10", "b) -10"], "answer": "a"},
+    {"question": "What is the output of print(7 % 3)?", "choices": ["a) 1", "b) 2"], "answer": "b"},
+    {"question": "Which keyword is used to create a generator function in Python?", "choices": ["a) yield", "b) return"], "answer": "a"},
+    {"question": "How do you get the first item of a list `my_list`?", "choices": ["a) my_list[0]", "b) my_list(0)"], "answer": "a"},
+    {"question": "Which of the following is a correct way to write an inline comment?", "choices": ["a) # comment", "b) /* comment */"], "answer": "a"},
+    {"question": "What is the output of print(bool([]))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "Which function converts a string to an integer in Python?", "choices": ["a) int()", "b) str()"], "answer": "a"},
+    {"question": "Which of the following methods is used to join elements of a list into a string?", "choices": ["a) join()", "b) concat()"], "answer": "a"},
+    {"question": "Which module provides access to system-specific parameters and functions?", "choices": ["a) os", "b) sys"], "answer": "b"},
+    {"question": "What is the output of print('hello'.capitalize())?", "choices": ["a) Hello", "b) hello"], "answer": "a"},
+    {"question": "How do you raise an exception in Python?", "choices": ["a) raise Exception()", "b) throw Exception()"], "answer": "a"},
+    {"question": "Which of the following is used to iterate through a dictionary's keys?", "choices": ["a) dict.keys()", "b) dict.values()"], "answer": "a"},
+    {"question": "What is the default delimiter for the split() method in Python?", "choices": ["a) Whitespace", "b) Comma"], "answer": "a"},
+    {"question": "How do you add an element to a list in Python?", "choices": ["a) append()", "b) add()"], "answer": "a"},
+    {"question": "Which of the following is used to sort a list in ascending order?", "choices": ["a) sort()", "b) sorted()"], "answer": "a"},
+    {"question": "What does the zip() function do?", "choices": ["a) Combines iterables", "b) Compresses files"], "answer": "a"},
+    {"question": "Which module is commonly used for random number generation?", "choices": ["a) random", "b) math"], "answer": "a"},
+    {"question": "What is the result of 5 == 5?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which statement is used to exit a function?", "choices": ["a) return", "b) exit"], "answer": "a"},
+    {"question": "What does the 'in' keyword check in Python?", "choices": ["a) Membership in an iterable", "b) Equality"], "answer": "a"},
+    {"question": "What is the result of len({'a': 1, 'b': 2})?", "choices": ["a) 2", "b) 4"], "answer": "a"},
+    {"question": "Which method is used to check if a string starts with a certain substring?", "choices": ["a) startswith()", "b) beginswith()"], "answer": "a"},
+    {"question": "What is the result of type({}) in Python?", "choices": ["a) <class 'dict'>", "b) <class 'set'>"], "answer": "a"},
+    {"question": "Which of the following is a valid list comprehension?", "choices": ["a) [x for x in range(10)]", "b) {x for x in range(10)}"], "answer": "a"},
+    {"question": "Which function is used to evaluate an expression from a string?", "choices": ["a) eval()", "b) exec()"], "answer": "a"},
+    {"question": "What does the __init__ method in a class do?", "choices": ["a) Initializes the object", "b) Deletes the object"], "answer": "a"},
+    {"question": "Which operator is used to concatenate strings?", "choices": ["a) +", "b) &"], "answer": "a"},
+    {"question": "How do you check if a key exists in a dictionary?", "choices": ["a) key in dict", "b) dict.has(key)"], "answer": "a"},
+    {"question": "What is the output of print(round(3.14159, 2))?", "choices": ["a) 3.14", "b) 3.14159"], "answer": "a"},
+    {"question": "Which of the following creates an empty set?", "choices": ["a) set()", "b) {}"], "answer": "a"},
+    {"question": "How do you remove duplicates from a list?", "choices": ["a) list(set())", "b) unique()"], "answer": "a"},
+    {"question": "Which keyword is used to start a conditional statement?", "choices": ["a) if", "b) when"], "answer": "a"},
+    {"question": "What is the result of type((1,))?", "choices": ["a) <class 'tuple'>", "b) <class 'int'>"], "answer": "a"},
+    {"question": "Which of the following loops executes at least once?", "choices": ["a) while True", "b) do-while"], "answer": "a"},
+    {"question": "What does the pass keyword do?", "choices": ["a) Does nothing", "b) Stops execution"], "answer": "a"},
+    {"question": "How do you comment multiple lines in Python?", "choices": ["a) Triple quotes", "b) //"], "answer": "a"},
+    {"question": "What is the difference between is and ==?", "choices": ["a) is checks identity, == checks equality", "b) Both check equality"], "answer": "a"},
+    {"question": "Which function is used to find the maximum value in a list?", "choices": ["a) max()", "b) maximum()"], "answer": "a"},
+    {"question": "What is the result of bool(1)?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which module is used for working with dates?", "choices": ["a) datetime", "b) time"], "answer": "a"},
+    {"question": "What is the output of print(ord('A'))?", "choices": ["a) 65", "b) 97"], "answer": "a"},
+    {"question": "Which method is used to remove whitespace from a string?", "choices": ["a) strip()", "b) trim()"], "answer": "a"},
+    {"question": "How do you define a lambda function?", "choices": ["a) lambda x: x+1", "b) def lambda(x): x+1"], "answer": "a"},
+    {"question": "Which of the following is a Python package manager?", "choices": ["a) pip", "b) npm"], "answer": "a"},
+    {"question": "What does the dir() function return?", "choices": ["a) Attributes of an object", "b) Current directory"], "answer": "a"},
+    {"question": "How do you copy a list?", "choices": ["a) list.copy()", "b) list.clone()"], "answer": "a"},
+    {"question": "What is the purpose of Python decorators?", "choices": ["a) Modify functions", "b) Style code"], "answer": "a"},
+    {"question": "Which of the following is used to install external libraries?", "choices": ["a) pip install", "b) python add"], "answer": "a"},
+    {"question": "What is the output of print(' '.join(['Hello', 'World']))?", "choices": ["a) Hello World", "b) HelloWorld"], "answer": "a"},
+    {"question": "Which method can be used to replace parts of a string?", "choices": ["a) replace()", "b) change()"], "answer": "a"},
+    {"question": "What is the output of print(abs(-10))?", "choices": ["a) 10", "b) -10"], "answer": "a"},
+    {"question": "Which module is used to generate random numbers in Python?", "choices": ["a) random", "b) numbers"], "answer": "a"},
+    {"question": "What is the output of print(len({1, 2, 3, 2}))?", "choices": ["a) 3", "b) 4"], "answer": "a"},
+    {"question": "Which method adds an element to the end of a list?", "choices": ["a) append()", "b) add()"], "answer": "a"},
+    {"question": "What is the output of print(max([1, 2, 3, 4]))?", "choices": ["a) 4", "b) 3"], "answer": "a"},
+    {"question": "Which of the following can be used to iterate over a string?", "choices": ["a) for loop", "b) while loop"], "answer": "a"},
+    {"question": "What is the result of print(len({}))?", "choices": ["a) 0", "b) None"], "answer": "a"},
+    {"question": "Which method is used to split a string into a list?", "choices": ["a) split()", "b) divide()"], "answer": "a"},
+    {"question": "What is the output of print(10 in [5, 10, 15])?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which method removes an item from a list by value?", "choices": ["a) remove()", "b) pop()"], "answer": "a"},
+    {"question": "What is the output of print(type(None))?", "choices": ["a) <class 'NoneType'>", "b) <class 'null'>"], "answer": "a"},
+    {"question": "What is the result of print(divmod(10, 3))?", "choices": ["a) (3, 1)", "b) 3.33"], "answer": "a"},
+    {"question": "Which keyword is used to check membership in Python?", "choices": ["a) in", "b) has"], "answer": "a"},
+    {"question": "What is the result of print('Python'[::-1])?", "choices": ["a) nohtyP", "b) Pytho"], "answer": "a"},
+    {"question": "What is the output of print([1, 2, 3] + [4, 5])?", "choices": ["a) [1, 2, 3, 4, 5]", "b) Error"], "answer": "a"},
+    {"question": "Which function is used to round a number to a given precision?", "choices": ["a) round()", "b) truncate()"], "answer": "a"},
+    {"question": "What is the output of print(len(' '))?", "choices": ["a) 1", "b) 0"], "answer": "a"},
+    {"question": "What is the output of print(all([True, False, True]))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "Which function is used to create a copy of a list?", "choices": ["a) list.copy()", "b) list.duplicate()"], "answer": "a"},
+    {"question": "What is the output of print(chr(97))?", "choices": ["a) a", "b) A"], "answer": "a"},
+    {"question": "Which method checks if all characters in a string are digits?", "choices": ["a) isdigit()", "b) isnum()"], "answer": "a"},
+    {"question": "What is the output of print(any([0, '', False]))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "What is the output of print('Hello'.startswith('H'))?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which operator is used to find the remainder of a division in Python?", "choices": ["a) %", "b) //"], "answer": "a"},
+    {"question": "Which of the following is a Python string method?", "choices": ["a) find()", "b) locate()"], "answer": "a"},
+    {"question": "What is the result of print({1, 2} | {2, 3})?", "choices": ["a) {1, 2, 3}", "b) {2}"], "answer": "a"},
+    {"question": "Which function converts a string to an integer in Python?", "choices": ["a) int()", "b) str()"], "answer": "a"},
+    {"question": "What is the output of print([1, 2] * 2)?", "choices": ["a) [1, 2, 1, 2]", "b) [1, 2]"], "answer": "a"},
+    {"question": "Which method is used to capitalize the first character of a string?", "choices": ["a) capitalize()", "b) upper()"], "answer": "a"},
+    {"question": "What is the output of print(not(5 > 3))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "What is the result of print((1, 2) + (3,))?", "choices": ["a) (1, 2, 3)", "b) Error"], "answer": "a"},
+    {"question": "Which function is used to find the minimum value in a list?", "choices": ["a) min()", "b) minimum()"], "answer": "a"},
+    {"question": "What is the output of print(5 & 3)?", "choices": ["a) 1", "b) 5"], "answer": "a"},
+    {"question": "What does the zip() function return?", "choices": ["a) Iterator of tuples", "b) Dictionary"], "answer": "a"},
+    {"question": "Which method checks if a string ends with a specific suffix?", "choices": ["a) endswith()", "b) checkend()"], "answer": "a"},
+    {"question": "What is the result of print('a' * 0)?", "choices": ["a) ''", "b) 'a'"], "answer": "a"},
+    {"question": "Which function is used to get the current working directory?", "choices": ["a) os.getcwd()", "b) os.get()"], "answer": "a"},
+    {"question": "What is the result of print([1, 2].append(3))?", "choices": ["a) None", "b) [1, 2, 3]"], "answer": "a"},
+    {"question": "What is the output of print(id(5))?", "choices": ["a) Memory address", "b) 5"], "answer": "a"},
+    {"question": "Which method converts a string to uppercase?", "choices": ["a) upper()", "b) capitalize()"], "answer": "a"},
+    {"question": "What is the output of print(sum([1, 2, 3]))?", "choices": ["a) 6", "b) 5"], "answer": "a"},
+    {"question": "What is the output of print(type([]))?", "choices": ["a) <class 'list'>", "b) <class 'tuple'>"], "answer": "a"},
+    {"question": "Which keyword is used to define a function in Python?", "choices": ["a) def", "b) func"], "answer": "a"},
+    {"question": "What is the result of print({1, 2, 3} & {2, 3, 4})?", "choices": ["a) {2, 3}", "b) {1, 4}"], "answer": "a"},
+    {"question": "Which function converts an integer to a binary string in Python?", "choices": ["a) bin()", "b) binary()"], "answer": "a"},
+    {"question": "What is the output of print(4 // 2)?", "choices": ["a) 2", "b) 2.0"], "answer": "a"},
+    {"question": "Which keyword is used to import a module in Python?", "choices": ["a) import", "b) include"], "answer": "a"},
+    {"question": "What is the result of print([1, 2, 3].count(2))?", "choices": ["a) 1", "b) 2"], "answer": "a"},
+    {"question": "Which method is used to remove leading whitespaces in a string?", "choices": ["a) lstrip()", "b) strip()"], "answer": "a"},
+    {"question": "What is the output of print(3 ** 2)?", "choices": ["a) 9", "b) 6"], "answer": "a"},
+    {"question": "Which method returns the index of the first occurrence of a value in a list?", "choices": ["a) index()", "b) find()"], "answer": "a"},
+    {"question": "What is the result of print({'a': 1, 'b': 2}.get('b'))?", "choices": ["a) 2", "b) None"], "answer": "a"},
+    {"question": "Which method is used to check if all characters in a string are alphabetic?", "choices": ["a) isalpha()", "b) isalnum()"], "answer": "a"},
+    {"question": "What is the output of print('hello'.upper())?", "choices": ["a) HELLO", "b) hello"], "answer": "a"},
+    {"question": "Which data type is immutable in Python?", "choices": ["a) tuple", "b) list"], "answer": "a"},
+    {"question": "What is the result of print(range(5)[2])?", "choices": ["a) 2", "b) 3"], "answer": "a"},
+    {"question": "Which method is used to remove an item at a specific index in a list?", "choices": ["a) pop()", "b) delete()"], "answer": "a"},
+    {"question": "What is the output of print('abc'.replace('b', 'd'))?", "choices": ["a) adc", "b) abc"], "answer": "a"},
+    {"question": "Which function is used to create a floating-point number in Python?", "choices": ["a) float()", "b) double()"], "answer": "a"},
+    {"question": "What is the output of print(not(0))?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which method splits a string into lines?", "choices": ["a) splitlines()", "b) split()"], "answer": "a"},
+    {"question": "What is the result of print({1, 2, 3} - {2, 3})?", "choices": ["a) {1}", "b) {}"], "answer": "a"},
+    {"question": "Which function is used to check the type of a variable?", "choices": ["a) type()", "b) var()"], "answer": "a"},
+    {"question": "What is the output of print(sum([1, 2, 3]))?", "choices": ["a) 6", "b) 5"], "answer": "a"},
+    {"question": "Which method converts all characters of a string to lowercase?", "choices": ["a) lower()", "b) down()"], "answer": "a"},
+    {"question": "What is the result of print(bool([]))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "Which keyword is used to handle exceptions in Python?", "choices": ["a) except", "b) catch"], "answer": "a"},
+    {"question": "What is the output of print(len(range(3)))?", "choices": ["a) 3", "b) 4"], "answer": "a"},
+    {"question": "Which function is used to sort a list in ascending order?", "choices": ["a) sorted()", "b) sort()"], "answer": "a"},
+    {"question": "What is the result of print({1, 2}.issubset({1, 2, 3}))?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which function is used to get the ASCII value of a character?", "choices": ["a) ord()", "b) chr()"], "answer": "a"},
+    {"question": "What is the output of print(isinstance(5, int))?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which method joins elements of a list into a string?", "choices": ["a) join()", "b) concat()"], "answer": "a"},
+    {"question": "What is the output of print('Python'.find('P'))?", "choices": ["a) 0", "b) -1"], "answer": "a"},
+    {"question": "What is the result of print(max([3, 2, 5, 1]))?", "choices": ["a) 5", "b) 3"], "answer": "a"},
+    {"question": "Which method is used to reverse a list in Python?", "choices": ["a) reverse()", "b) invert()"], "answer": "a"},
+    {"question": "What is the output of print(3 * 4 // 2)?", "choices": ["a) 6", "b) 12"], "answer": "a"},
+    {"question": "Which keyword is used to delete a variable in Python?", "choices": ["a) del", "b) remove"], "answer": "a"},
+    {"question": "What is the result of print(all([True, False, True]))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "Which function is used to create a dictionary from two lists?", "choices": ["a) zip()", "b) map()"], "answer": "a"},
+    {"question": "What is the output of print(min([7, 8, 3, 9]))?", "choices": ["a) 3", "b) 7"], "answer": "a"},
+    {"question": "Which method is used to check if a string ends with a specific substring?", "choices": ["a) endswith()", "b) ends()"], "answer": "a"},
+    {"question": "What is the result of print(pow(2, 3))?", "choices": ["a) 8", "b) 6"], "answer": "a"},
+    {"question": "Which method removes duplicates from a list and returns a set?", "choices": ["a) set()", "b) unique()"], "answer": "a"},
+    {"question": "What is the output of print({1, 2, 3} | {3, 4})?", "choices": ["a) {1, 2, 3, 4}", "b) {3}"], "answer": "a"},
+    {"question": "Which method removes all elements from a list?", "choices": ["a) clear()", "b) deleteAll()"], "answer": "a"},
+    {"question": "What is the result of print(not not True)?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which function is used to evaluate a string expression in Python?", "choices": ["a) eval()", "b) execute()"], "answer": "a"},
+    {"question": "What is the result of print([1, 2, 3][0])?", "choices": ["a) 1", "b) 3"], "answer": "a"},
+    {"question": "Which method converts an integer to a hexadecimal string?", "choices": ["a) hex()", "b) int_to_hex()"], "answer": "a"},
+    {"question": "What is the output of print(bool(''))?", "choices": ["a) False", "b) True"], "answer": "a"},
+    {"question": "Which method removes whitespace from the start and end of a string?", "choices": ["a) strip()", "b) trim()"], "answer": "a"},
+    {"question": "What is the result of print(10 < 5 or 10 > 5)?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which function is used to convert a string to an integer?", "choices": ["a) int()", "b) str_to_int()"], "answer": "a"},
+    {"question": "What is the output of print('python'.capitalize())?", "choices": ["a) Python", "b) python"], "answer": "a"},
+    {"question": "Which method returns the index of a substring in a string?", "choices": ["a) find()", "b) index()"], "answer": "a"},
+    {"question": "What is the output of print({1, 2, 3} ^ {2, 3, 4})?", "choices": ["a) {1, 4}", "b) {2, 3}"], "answer": "a"},
+    {"question": "Which function is used to round a floating-point number?", "choices": ["a) round()", "b) floor()"], "answer": "a"},
+    {"question": "What is the result of print(divmod(10, 3))?", "choices": ["a) (3, 1)", "b) (10, 3)"], "answer": "a"},
+    {"question": "Which method adds an item to a set in Python?", "choices": ["a) add()", "b) append()"], "answer": "a"},
+    {"question": "What is the output of print('python'.islower())?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which method checks if a string contains only digits?", "choices": ["a) isdigit()", "b) isnum()"], "answer": "a"},
+    {"question": "What is the result of print({1, 2, 3}.isdisjoint({4, 5}))?", "choices": ["a) True", "b) False"], "answer": "a"},
+    {"question": "Which method concatenates two lists?", "choices": ["a) extend()", "b) concat()"], "answer": "a"},
+    {"question": "What is the result of print(chr(65))?", "choices": ["a) A", "b) 65"], "answer": "a"},
+    {"question": "Which keyword is used to stop a loop in Python?", "choices": ["a) break", "b) stop"], "answer": "a"},
+    {"question": "What is the result of print([1, 2, 3][-1])?", "choices": ["a) 3", "b) 1"], "answer": "a"},
+    {"question": "Which method is used to append elements to a list?", "choices": ["a) append()", "b) push()"], "answer": "a"},
+    {"question": "What is the output of print([1, 2, 3] * 2)?", "choices": ["a) [1, 2, 3, 1, 2, 3]", "b) [1, 2, 3, 2, 3]"], "answer": "a"},
+    {"question": "Which function returns the length of a set?", "choices": ["a) len()", "b) size()"], "answer": "a"}
+    ]
+
+    for _ in range(5):  # Ask 5 random questions
+        question = random.choice(questions)  # Pick a random question
+        print(f"Question: {question['question']}")
+        for choice in question["choices"]:
+            print(choice)
+
+        user_answer = input("Your Answer (a/b): ").strip().lower()
+        if user_answer == question["answer"]:
+            print("✅ Correct!")
+        else:
+            print("❌ Incorrect. Let's try the next question.")
+
+    question = random.choice(questions)  # Pick a random question
+    print(f"Question: {question['question']}")
+    for choice in question["choices"]:
+        print(choice)
+
+    user_answer = input("Your Answer (a/b): ").strip().lower()
+    if user_answer == question["answer"]:
+        print("✅ Correct! Generating your password...")
+        return True
+    else:
+        print("❌ Incorrect. Let's try again next time!")
+        return False
+
+
+def main():
+    print("Hei Isaac, You wanna generate a password? Los gehts!")
+
+    # Get user input for password options
+    length = int(input("Enter the desired password length: "))
+    use_uppercase = input("Include uppercase letters? (y/n): ").lower() == 'y'
+    use_lowercase = input("Include lowercase letters? (y/n): ").lower() == 'y'
+    use_numbers = input("Include numbers? (y/n): ").lower() == 'y'
+    use_symbols = input("Include symbols? (y/n): ").lower() == 'y'
+    use_emojis  = input("Include emojis? (y/n): ").lower() == 'y'
+    
+    # Ask if the user wants to play a game
+    play = input("Hei, Isaac! I'm generating your password. Want to play a quick game while you wait? (y/n): ").lower()
+
+    # If user opts to play a game
+    if play == 'y':
+        if play_game():
+            password = generate_password(length, use_uppercase, use_lowercase, use_numbers, use_symbols)
+            print(f"🎉 Here's your generated password Isaac: {password}")
+        else:
+            print("No worries Isaac! Your password will still be generated.")
+            password = generate_password(length, use_uppercase, use_lowercase, use_numbers, use_symbols)
+            print(f"🔒 Here's your generated password Isaac: {password}")
+    else:
+        print("Alright, generating your password now Isaac...")
+        password = generate_password(length, use_uppercase, use_lowercase, use_numbers, use_symbols)
+        print(f"🔒 Here's your generated password Isaac: {password}")
+
+
+# Ask if user wnant to generate another Passwor and play more games
+    while True:
+        play_again = input("Do you want to generate another password? (y/n): ").lower()
+        if play_again == 'y':
+            main()
+        elif play_again == 'n':
+            print("Thanks for using the password generator. Have a great day!")
+            break
+        else:
+            print("Invalid input. Please enter 'y' or 'n'.")
+
+# Run the main function if the script is executed
+if __name__ == "__main__":
+    main()
