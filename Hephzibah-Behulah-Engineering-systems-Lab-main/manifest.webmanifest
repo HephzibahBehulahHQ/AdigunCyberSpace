@@ -1,0 +1,10 @@
+{
+  "name":"Hephzibah Behulah | Engineering Systems Lab",
+  "short_name":"Engineering Systems",
+  "start_url":"/",
+  "display":"standalone",
+  "background_color":"#08090b",
+  "theme_color":"#08090b",
+  "description":"Interactive Engineering Systems Lab connecting engineering, cybersecurity, data and web development.",
+  "lang":"en"
+}
